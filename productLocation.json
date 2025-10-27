@@ -1,0 +1,1002 @@
+[
+    {
+        "ean": "7000000000097",
+        "nome_produto": "Maçãs Gala",
+        "corredor": "Frescos",
+        "secção": "Hortícolas",
+        "prateleira": 1,
+        "caixa": "C01",
+        "coordenada_x": 23.6,
+        "coordenada_y": 32.4
+    },
+    {
+        "ean": "7000000000136",
+        "nome_produto": "Morangos Frescos",
+        "corredor": "Frescos",
+        "secção": "Hortícolas",
+        "prateleira": 2,
+        "caixa": "C02",
+        "coordenada_x": 49.4,
+        "coordenada_y": 21.9
+    },
+    {
+        "ean": "7000000000263",
+        "nome_produto": "Bacalhau Congelado",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 3,
+        "caixa": "C03",
+        "coordenada_x": 23.5,
+        "coordenada_y": 20.5
+    },
+    {
+        "ean": "7000000000342",
+        "nome_produto": "Frango Inteiro",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 4,
+        "caixa": "C04",
+        "coordenada_x": 42.5,
+        "coordenada_y": 16.7
+    },
+    {
+        "ean": "7000000000489",
+        "nome_produto": "Iogurte Natural",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 5,
+        "caixa": "C05",
+        "coordenada_x": 14.6,
+        "coordenada_y": 46.8
+    },
+    {
+        "ean": "7000000000598",
+        "nome_produto": "Queijo Fresco",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 1,
+        "caixa": "C06",
+        "coordenada_x": 22.8,
+        "coordenada_y": 15.9
+    },
+    {
+        "ean": "7000000000642",
+        "nome_produto": "Sumo de Laranja",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 2,
+        "caixa": "C07",
+        "coordenada_x": 48.0,
+        "coordenada_y": 20.3
+    },
+    {
+        "ean": "7000000000766",
+        "nome_produto": "Água Gaseificada",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 3,
+        "caixa": "C08",
+        "coordenada_x": 32.7,
+        "coordenada_y": 27.1
+    },
+    {
+        "ean": "7000000000853",
+        "nome_produto": "Arroz Agulha",
+        "corredor": "Frescos",
+        "secção": "Fruta",
+        "prateleira": 4,
+        "caixa": "C01",
+        "coordenada_x": 9.7,
+        "coordenada_y": 18.2
+    },
+    {
+        "ean": "7000000000997",
+        "nome_produto": "Feijão Preto",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 5,
+        "caixa": "C02",
+        "coordenada_x": 31.1,
+        "coordenada_y": 37.7
+    },
+    {
+        "ean": "7000000001027",
+        "nome_produto": "Azeite Virgem",
+        "corredor": "Frescos",
+        "secção": "Talho",
+        "prateleira": 1,
+        "caixa": "C03",
+        "coordenada_x": 27.4,
+        "coordenada_y": 46.0
+    },
+    {
+        "ean": "7000000001157",
+        "nome_produto": "Vinagre Balsâmico",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 2,
+        "caixa": "C04",
+        "coordenada_x": 6.4,
+        "coordenada_y": 48.2
+    },
+    {
+        "ean": "7000000001278",
+        "nome_produto": "Biscoitos Chá",
+        "corredor": "Frescos",
+        "secção": "Hortícolas",
+        "prateleira": 3,
+        "caixa": "C05",
+        "coordenada_x": 35.3,
+        "coordenada_y": 15.7
+    },
+    {
+        "ean": "7000000001302",
+        "nome_produto": "Bolachas Maria",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 4,
+        "caixa": "C06",
+        "coordenada_x": 5.1,
+        "coordenada_y": 49.1
+    },
+    {
+        "ean": "7000000001415",
+        "nome_produto": "Chocolate Negro",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 5,
+        "caixa": "C07",
+        "coordenada_x": 46.9,
+        "coordenada_y": 32.2
+    },
+    {
+        "ean": "7000000001520",
+        "nome_produto": "Pastilha Elástica",
+        "corredor": "Frescos",
+        "secção": "Peixaria",
+        "prateleira": 1,
+        "caixa": "C08",
+        "coordenada_x": 46.2,
+        "coordenada_y": 14.8
+    },
+    {
+        "ean": "7000000001691",
+        "nome_produto": "Cerveja Artesanal",
+        "corredor": "Frescos",
+        "secção": "Talho",
+        "prateleira": 2,
+        "caixa": "C01",
+        "coordenada_x": 20.9,
+        "coordenada_y": 24.1
+    },
+    {
+        "ean": "7000000001761",
+        "nome_produto": "Vinho Tinto",
+        "corredor": "Frescos",
+        "secção": "Hortícolas",
+        "prateleira": 3,
+        "caixa": "C02",
+        "coordenada_x": 22.9,
+        "coordenada_y": 7.6
+    },
+    {
+        "ean": "7000000001825",
+        "nome_produto": "Sopa Instantânea",
+        "corredor": "Frescos",
+        "secção": "Hortícolas",
+        "prateleira": 4,
+        "caixa": "C03",
+        "coordenada_x": 42.8,
+        "coordenada_y": 14.0
+    },
+    {
+        "ean": "7000000001954",
+        "nome_produto": "Atum em Lata",
+        "corredor": "Frescos",
+        "secção": "Talho",
+        "prateleira": 5,
+        "caixa": "C04",
+        "coordenada_x": 46.3,
+        "coordenada_y": 25.4
+    },
+    {
+        "ean": "7000000002001",
+        "nome_produto": "Detergente Roupa",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 1,
+        "caixa": "C05",
+        "coordenada_x": 36.1,
+        "coordenada_y": 41.5
+    },
+    {
+        "ean": "7000000002175",
+        "nome_produto": "Amaciador",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 2,
+        "caixa": "C06",
+        "coordenada_x": 24.5,
+        "coordenada_y": 7.8
+    },
+    {
+        "ean": "7000000002269",
+        "nome_produto": "Champô Anticaspa",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 3,
+        "caixa": "C07",
+        "coordenada_x": 17.4,
+        "coordenada_y": 27.5
+    },
+    {
+        "ean": "7000000002370",
+        "nome_produto": "Sabonete Líquido",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 4,
+        "caixa": "C08",
+        "coordenada_x": 22.8,
+        "coordenada_y": 16.3
+    },
+    {
+        "ean": "7000000002425",
+        "nome_produto": "Guardanapos",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 5,
+        "caixa": "C01",
+        "coordenada_x": 12.2,
+        "coordenada_y": 19.3
+    },
+    {
+        "ean": "7000000002553",
+        "nome_produto": "Papel Higiénico",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 1,
+        "caixa": "C02",
+        "coordenada_x": 16.1,
+        "coordenada_y": 23.7
+    },
+    {
+        "ean": "7000000002649",
+        "nome_produto": "Lâmpadas LED",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 2,
+        "caixa": "C03",
+        "coordenada_x": 48.9,
+        "coordenada_y": 39.3
+    },
+    {
+        "ean": "7000000002784",
+        "nome_produto": "Baterias AA",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 3,
+        "caixa": "C04",
+        "coordenada_x": 24.8,
+        "coordenada_y": 2.3
+    },
+    {
+        "ean": "7000000002865",
+        "nome_produto": "Ração Cão",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 4,
+        "caixa": "C05",
+        "coordenada_x": 16.8,
+        "coordenada_y": 5.4
+    },
+    {
+        "ean": "7000000002957",
+        "nome_produto": "Areia Gato",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 5,
+        "caixa": "C06",
+        "coordenada_x": 26.3,
+        "coordenada_y": 22.9
+    },
+    {
+        "ean": "7000000003093",
+        "nome_produto": "Pão de Forma Integral",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 1,
+        "caixa": "C07",
+        "coordenada_x": 20.6,
+        "coordenada_y": 32.6
+    },
+    {
+        "ean": "7000000003120",
+        "nome_produto": "Leite UHT Meio-Gordo",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 2,
+        "caixa": "C08",
+        "coordenada_x": 23.5,
+        "coordenada_y": 48.0
+    },
+    {
+        "ean": "7000000003244",
+        "nome_produto": "Ovos Classe L",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 3,
+        "caixa": "C01",
+        "coordenada_x": 34.4,
+        "coordenada_y": 32.3
+    },
+    {
+        "ean": "7000000003343",
+        "nome_produto": "Manteiga com Sal",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 4,
+        "caixa": "C02",
+        "coordenada_x": 42.6,
+        "coordenada_y": 19.1
+    },
+    {
+        "ean": "7000000003441",
+        "nome_produto": "Cereais de Milho",
+        "corredor": "Refrigerados",
+        "secção": "Sumos",
+        "prateleira": 5,
+        "caixa": "C03",
+        "coordenada_x": 35.7,
+        "coordenada_y": 37.7
+    },
+    {
+        "ean": "7000000003570",
+        "nome_produto": "Café Moído Clássico",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 1,
+        "caixa": "C04",
+        "coordenada_x": 30.8,
+        "coordenada_y": 12.0
+    },
+    {
+        "ean": "7000000003688",
+        "nome_produto": "Chá Preto em Saquetas",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 2,
+        "caixa": "C05",
+        "coordenada_x": 49.4,
+        "coordenada_y": 37.1
+    },
+    {
+        "ean": "7000000003756",
+        "nome_produto": "Mel Multifloral",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 3,
+        "caixa": "C06",
+        "coordenada_x": 37.8,
+        "coordenada_y": 35.0
+    },
+    {
+        "ean": "7000000003813",
+        "nome_produto": "Açúcar Branco",
+        "corredor": "Refrigerados",
+        "secção": "Iogurtes",
+        "prateleira": 4,
+        "caixa": "C07",
+        "coordenada_x": 8.7,
+        "coordenada_y": 15.2
+    },
+    {
+        "ean": "7000000003904",
+        "nome_produto": "Sal Fino",
+        "corredor": "Refrigerados",
+        "secção": "Laticínios",
+        "prateleira": 5,
+        "caixa": "C08",
+        "coordenada_x": 16.4,
+        "coordenada_y": 3.2
+    },
+    {
+        "ean": "7000000004046",
+        "nome_produto": "Pimenta Preta Moída",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 1,
+        "caixa": "C01",
+        "coordenada_x": 21.6,
+        "coordenada_y": 12.5
+    },
+    {
+        "ean": "7000000004153",
+        "nome_produto": "Molho de Tomate",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 2,
+        "caixa": "C02",
+        "coordenada_x": 8.8,
+        "coordenada_y": 4.4
+    },
+    {
+        "ean": "7000000004249",
+        "nome_produto": "Massa Penne",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 3,
+        "caixa": "C03",
+        "coordenada_x": 24.9,
+        "coordenada_y": 29.1
+    },
+    {
+        "ean": "7000000004330",
+        "nome_produto": "Lentilhas Secas",
+        "corredor": "Mercearia Seca",
+        "secção": "Snacks",
+        "prateleira": 4,
+        "caixa": "C04",
+        "coordenada_x": 31.8,
+        "coordenada_y": 23.0
+    },
+    {
+        "ean": "7000000004486",
+        "nome_produto": "Grão-de-Bico Cozido",
+        "corredor": "Mercearia Seca",
+        "secção": "Massas/Arroz",
+        "prateleira": 5,
+        "caixa": "C05",
+        "coordenada_x": 44.5,
+        "coordenada_y": 23.3
+    },
+    {
+        "ean": "7000000004537",
+        "nome_produto": "Milho Doce em Lata",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 1,
+        "caixa": "C06",
+        "coordenada_x": 4.1,
+        "coordenada_y": 46.8
+    },
+    {
+        "ean": "7000000004676",
+        "nome_produto": "Azeitonas Pretas",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 2,
+        "caixa": "C07",
+        "coordenada_x": 31.8,
+        "coordenada_y": 21.3
+    },
+    {
+        "ean": "7000000004733",
+        "nome_produto": "Pickles Variados",
+        "corredor": "Mercearia Seca",
+        "secção": "Snacks",
+        "prateleira": 3,
+        "caixa": "C08",
+        "coordenada_x": 41.9,
+        "coordenada_y": 10.3
+    },
+    {
+        "ean": "7000000004850",
+        "nome_produto": "Tostas Integrais",
+        "corredor": "Mercearia Seca",
+        "secção": "Snacks",
+        "prateleira": 4,
+        "caixa": "C01",
+        "coordenada_x": 5.7,
+        "coordenada_y": 19.2
+    },
+    {
+        "ean": "7000000004946",
+        "nome_produto": "Muesli",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 5,
+        "caixa": "C02",
+        "coordenada_x": 49.1,
+        "coordenada_y": 15.0
+    },
+    {
+        "ean": "7000000005085",
+        "nome_produto": "Refrigerante Cola Zero",
+        "corredor": "Mercearia Seca",
+        "secção": "Snacks",
+        "prateleira": 1,
+        "caixa": "C03",
+        "coordenada_x": 13.9,
+        "coordenada_y": 28.2
+    },
+    {
+        "ean": "7000000005188",
+        "nome_produto": "Água Tónica",
+        "corredor": "Mercearia Seca",
+        "secção": "Massas/Arroz",
+        "prateleira": 2,
+        "caixa": "C04",
+        "coordenada_x": 45.1,
+        "coordenada_y": 37.0
+    },
+    {
+        "ean": "7000000005237",
+        "nome_produto": "Gelo em Cubos",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 3,
+        "caixa": "C05",
+        "coordenada_x": 30.2,
+        "coordenada_y": 17.8
+    },
+    {
+        "ean": "7000000005382",
+        "nome_produto": "Vodka Standard",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 4,
+        "caixa": "C06",
+        "coordenada_x": 30.9,
+        "coordenada_y": 33.7
+    },
+    {
+        "ean": "7000000005493",
+        "nome_produto": "Whisky Escocês",
+        "corredor": "Mercearia Seca",
+        "secção": "Enlatados",
+        "prateleira": 5,
+        "caixa": "C07",
+        "coordenada_x": 31.3,
+        "coordenada_y": 44.8
+    },
+    {
+        "ean": "7000000005583",
+        "nome_produto": "Champagne Brut",
+        "corredor": "Mercearia Seca",
+        "secção": "Massas/Arroz",
+        "prateleira": 1,
+        "caixa": "C08",
+        "coordenada_x": 15.6,
+        "coordenada_y": 22.1
+    },
+    {
+        "ean": "7000000005675",
+        "nome_produto": "Cerveja Lager Pack 6",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 2,
+        "caixa": "C01",
+        "coordenada_x": 36.4,
+        "coordenada_y": 4.9
+    },
+    {
+        "ean": "7000000005738",
+        "nome_produto": "Sumo de Ananás",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 3,
+        "caixa": "C02",
+        "coordenada_x": 37.1,
+        "coordenada_y": 9.1
+    },
+    {
+        "ean": "7000000005817",
+        "nome_produto": "Bebida Energética",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 4,
+        "caixa": "C03",
+        "coordenada_x": 26.5,
+        "coordenada_y": 45.3
+    },
+    {
+        "ean": "7000000005922",
+        "nome_produto": "Cidra Maçã",
+        "corredor": "Mercearia Seca",
+        "secção": "Azeites/Óleos",
+        "prateleira": 5,
+        "caixa": "C04",
+        "coordenada_x": 45.3,
+        "coordenada_y": 46.8
+    },
+    {
+        "ean": "7000000006038",
+        "nome_produto": "Gel de Banho Hidratante",
+        "corredor": "Bebidas",
+        "secção": "Cervejas",
+        "prateleira": 1,
+        "caixa": "C05",
+        "coordenada_x": 39.9,
+        "coordenada_y": 23.4
+    },
+    {
+        "ean": "7000000006110",
+        "nome_produto": "Pasta de Dentes",
+        "corredor": "Bebidas",
+        "secção": "Refrigerantes",
+        "prateleira": 2,
+        "caixa": "C06",
+        "coordenada_x": 37.5,
+        "coordenada_y": 11.6
+    },
+    {
+        "ean": "7000000006287",
+        "nome_produto": "Escova de Dentes Pack",
+        "corredor": "Bebidas",
+        "secção": "Vinhos",
+        "prateleira": 3,
+        "caixa": "C07",
+        "coordenada_x": 47.9,
+        "coordenada_y": 39.9
+    },
+    {
+        "ean": "7000000006347",
+        "nome_produto": "Fio Dentário",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 4,
+        "caixa": "C08",
+        "coordenada_x": 39.2,
+        "coordenada_y": 1.2
+    },
+    {
+        "ean": "7000000006469",
+        "nome_produto": "Desodorizante Spray",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 5,
+        "caixa": "C01",
+        "coordenada_x": 22.8,
+        "coordenada_y": 33.5
+    },
+    {
+        "ean": "7000000006587",
+        "nome_produto": "Creme de Mãos",
+        "corredor": "Bebidas",
+        "secção": "Cervejas",
+        "prateleira": 1,
+        "caixa": "C02",
+        "coordenada_x": 29.1,
+        "coordenada_y": 40.8
+    },
+    {
+        "ean": "7000000006648",
+        "nome_produto": "Loção Corporal",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 2,
+        "caixa": "C03",
+        "coordenada_x": 33.6,
+        "coordenada_y": 23.6
+    },
+    {
+        "ean": "7000000006780",
+        "nome_produto": "Protetor Solar FPS 50",
+        "corredor": "Bebidas",
+        "secção": "Cervejas",
+        "prateleira": 3,
+        "caixa": "C04",
+        "coordenada_x": 45.3,
+        "coordenada_y": 11.3
+    },
+    {
+        "ean": "7000000006809",
+        "nome_produto": "Gillette Descartável",
+        "corredor": "Bebidas",
+        "secção": "Vinhos",
+        "prateleira": 4,
+        "caixa": "C05",
+        "coordenada_x": 45.1,
+        "coordenada_y": 15.3
+    },
+    {
+        "ean": "7000000006953",
+        "nome_produto": "Espuma Barbear",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 5,
+        "caixa": "C06",
+        "coordenada_x": 7.3,
+        "coordenada_y": 46.9
+    },
+    {
+        "ean": "7000000007039",
+        "nome_produto": "Lixívia Desinfetante",
+        "corredor": "Bebidas",
+        "secção": "Vinhos",
+        "prateleira": 1,
+        "caixa": "C07",
+        "coordenada_x": 6.2,
+        "coordenada_y": 12.0
+    },
+    {
+        "ean": "7000000007169",
+        "nome_produto": "Detergente Loiça",
+        "corredor": "Bebidas",
+        "secção": "Refrigerantes",
+        "prateleira": 2,
+        "caixa": "C08",
+        "coordenada_x": 19.5,
+        "coordenada_y": 18.7
+    },
+    {
+        "ean": "7000000007296",
+        "nome_produto": "Esponjas de Limpeza",
+        "corredor": "Bebidas",
+        "secção": "Vinhos",
+        "prateleira": 3,
+        "caixa": "C01",
+        "coordenada_x": 29.3,
+        "coordenada_y": 36.1
+    },
+    {
+        "ean": "7000000007354",
+        "nome_produto": "Panos Microfibra",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 4,
+        "caixa": "C02",
+        "coordenada_x": 41.4,
+        "coordenada_y": 30.7
+    },
+    {
+        "ean": "7000000007436",
+        "nome_produto": "Limpa Vidros",
+        "corredor": "Bebidas",
+        "secção": "Águas",
+        "prateleira": 5,
+        "caixa": "C03",
+        "coordenada_x": 34.3,
+        "coordenada_y": 11.1
+    },
+    {
+        "ean": "7000000007557",
+        "nome_produto": "Ambientador Spray",
+        "corredor": "Higiene Pessoal",
+        "secção": "Corpo",
+        "prateleira": 1,
+        "caixa": "C04",
+        "coordenada_x": 42.4,
+        "coordenada_y": 5.4
+    },
+    {
+        "ean": "7000000007688",
+        "nome_produto": "Vassoura e Pá",
+        "corredor": "Higiene Pessoal",
+        "secção": "Oral",
+        "prateleira": 2,
+        "caixa": "C05",
+        "coordenada_x": 27.2,
+        "coordenada_y": 48.4
+    },
+    {
+        "ean": "7000000007746",
+        "nome_produto": "Balde de Limpeza",
+        "corredor": "Higiene Pessoal",
+        "secção": "Cabelo",
+        "prateleira": 3,
+        "caixa": "C06",
+        "coordenada_x": 20.0,
+        "coordenada_y": 9.8
+    },
+    {
+        "ean": "7000000007816",
+        "nome_produto": "Saco de Lixo Grande",
+        "corredor": "Higiene Pessoal",
+        "secção": "Rosto",
+        "prateleira": 4,
+        "caixa": "C07",
+        "coordenada_x": 5.0,
+        "coordenada_y": 10.9
+    },
+    {
+        "ean": "7000000007982",
+        "nome_produto": "Desentupidor Líquido",
+        "corredor": "Higiene Pessoal",
+        "secção": "Cabelo",
+        "prateleira": 5,
+        "caixa": "C08",
+        "coordenada_x": 3.0,
+        "coordenada_y": 16.8
+    },
+    {
+        "ean": "7000000008017",
+        "nome_produto": "Papel Alumínio",
+        "corredor": "Higiene Pessoal",
+        "secção": "Corpo",
+        "prateleira": 1,
+        "caixa": "C01",
+        "coordenada_x": 3.9,
+        "coordenada_y": 38.0
+    },
+    {
+        "ean": "7000000008127",
+        "nome_produto": "Película Aderente",
+        "corredor": "Higiene Pessoal",
+        "secção": "Corpo",
+        "prateleira": 2,
+        "caixa": "C02",
+        "coordenada_x": 40.3,
+        "coordenada_y": 11.9
+    },
+    {
+        "ean": "7000000008219",
+        "nome_produto": "Caixas de Arrumação",
+        "corredor": "Higiene Pessoal",
+        "secção": "Cabelo",
+        "prateleira": 3,
+        "caixa": "C03",
+        "coordenada_x": 14.1,
+        "coordenada_y": 48.7
+    },
+    {
+        "ean": "7000000008317",
+        "nome_produto": "Cabides Plástico",
+        "corredor": "Higiene Pessoal",
+        "secção": "Oral",
+        "prateleira": 4,
+        "caixa": "C04",
+        "coordenada_x": 39.6,
+        "coordenada_y": 5.9
+    },
+    {
+        "ean": "7000000008404",
+        "nome_produto": "Tapete de Banho",
+        "corredor": "Higiene Pessoal",
+        "secção": "Corpo",
+        "prateleira": 5,
+        "caixa": "C05",
+        "coordenada_x": 1.2,
+        "coordenada_y": 39.2
+    },
+    {
+        "ean": "7000000008531",
+        "nome_produto": "Toalhas de Rosto",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 1,
+        "caixa": "C06",
+        "coordenada_x": 1.3,
+        "coordenada_y": 13.5
+    },
+    {
+        "ean": "7000000008617",
+        "nome_produto": "Lençóis de Casal",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 2,
+        "caixa": "C07",
+        "coordenada_x": 26.3,
+        "coordenada_y": 37.0
+    },
+    {
+        "ean": "7000000008761",
+        "nome_produto": "Almofadas Decorativas",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 3,
+        "caixa": "C08",
+        "coordenada_x": 38.6,
+        "coordenada_y": 25.6
+    },
+    {
+        "ean": "7000000008814",
+        "nome_produto": "Velas Aromáticas",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 4,
+        "caixa": "C01",
+        "coordenada_x": 25.2,
+        "coordenada_y": 46.8
+    },
+    {
+        "ean": "7000000008906",
+        "nome_produto": "Flores Artificiais",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 5,
+        "caixa": "C02",
+        "coordenada_x": 22.9,
+        "coordenada_y": 47.7
+    },
+    {
+        "ean": "7000000009008",
+        "nome_produto": "Pilhas AAA",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 1,
+        "caixa": "C03",
+        "coordenada_x": 42.0,
+        "coordenada_y": 21.4
+    },
+    {
+        "ean": "7000000009114",
+        "nome_produto": "Extensão Elétrica",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 2,
+        "caixa": "C04",
+        "coordenada_x": 35.4,
+        "coordenada_y": 22.2
+    },
+    {
+        "ean": "7000000009211",
+        "nome_produto": "Fita Isoladora",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 3,
+        "caixa": "C05",
+        "coordenada_x": 30.3,
+        "coordenada_y": 3.7
+    },
+    {
+        "ean": "7000000009336",
+        "nome_produto": "Cola Super Forte",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 4,
+        "caixa": "C06",
+        "coordenada_x": 19.2,
+        "coordenada_y": 29.8
+    },
+    {
+        "ean": "7000000009438",
+        "nome_produto": "Tesoura Cozinha",
+        "corredor": "Casa & Limpeza",
+        "secção": "Diversos",
+        "prateleira": 5,
+        "caixa": "C07",
+        "coordenada_x": 25.3,
+        "coordenada_y": 21.6
+    },
+    {
+        "ean": "7000000009590",
+        "nome_produto": "Agrafador Escritório",
+        "corredor": "Casa & Limpeza",
+        "secção": "Lavandaria",
+        "prateleira": 1,
+        "caixa": "C08",
+        "coordenada_x": 42.3,
+        "coordenada_y": 32.4
+    },
+    {
+        "ean": "7000000009699",
+        "nome_produto": "Canetas Esferográficas",
+        "corredor": "Casa & Limpeza",
+        "secção": "Limpeza Geral",
+        "prateleira": 2,
+        "caixa": "C01",
+        "coordenada_x": 21.6,
+        "coordenada_y": 44.0
+    },
+    {
+        "ean": "7000000009753",
+        "nome_produto": "Caderno A4",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 3,
+        "caixa": "C02",
+        "coordenada_x": 41.0,
+        "coordenada_y": 20.0
+    },
+    {
+        "ean": "7000000009894",
+        "nome_produto": "Clips de Papel",
+        "corredor": "Casa & Limpeza",
+        "secção": "Lavandaria",
+        "prateleira": 4,
+        "caixa": "C03",
+        "coordenada_x": 15.8,
+        "coordenada_y": 15.8
+    },
+    {
+        "ean": "7000000009933",
+        "nome_produto": "Post-its",
+        "corredor": "Casa & Limpeza",
+        "secção": "Utensílios",
+        "prateleira": 5,
+        "caixa": "C04",
+        "coordenada_x": 47.2,
+        "coordenada_y": 34.2
+    }
+]

@@ -1,0 +1,7 @@
+# Ignorar arquivos de credenciais e chaves
+adk-project-474414-f51ba6d9e0bc.json
+
+# Ignorar pastas temporárias e caches
+__pycache__/
+.vscode/
+*.pyc

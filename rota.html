@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Rotas de Loja 50x50 (Dijkstra) com Navegação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        /* Estilo customizado para o canvas */
+        #storeCanvas {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 2px solid #e0e0e0;
+        }
+        .instruction-item {
+            padding: 8px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.875rem; /* sm */
+        }
+        .instruction-active {
+            background-color: #eff6ff; /* blue-50 */
+            border: 1px solid #93c5fd; /* blue-300 */
+            font-weight: 600;
+            transform: scale(1.02);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+ 
+<div class="max-w-7xl mx-auto">
+    <header class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Simulador de Rotas de Loja</h1>
+        <p class="text-gray-600 mt-1">Grelha com 2.500 células. As instruções de navegação passo a passo são geradas juntamente com o mapa.</p>
+    </header>
+ 
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+       
+        <!-- Painel de Controlo e Produtos -->
+        <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg h-full flex flex-col">
+           
+            <h2 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">1. Produtos Selecionados: </h2>
+            <div id="productList" class="space-y-3 max-h-64 overflow-y-auto pr-2 mb-6">
+                <!-- Produtos serão injetados aqui -->
+            </div>
+           
+ 
+            <!-- Instruções de Navegação -->
+            <h2 class="text-xl font-semibold text-gray-700 mb-3 border-b pb-2">2. Instruções de Navegação (<span id="currentSegmentTitle">Início</span>)</h2>
+            <div id="navigationInstructions" class="space-y-1 overflow-y-auto max-h-96">
+                <p class="text-sm text-gray-500 text-center">Calcule a rota para ver as instruções.</p>
+            </div>
+
+            <button onclick="calculateAndStartRoute()" id="startButton" hidden="true"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-150 shadow-md hover:shadow-lg disabled:opacity-50">
+                <span id="buttonText" hidden="true" >Calcular Rota e Iniciar Simulação</span> 
+            </button>
+           
+ 
+           
+            
+        </div>
+       
+        <!-- Visualização 2D da Loja (Canvas) -->
+        <div class="lg:col-span-2 flex-2">
+            <div class="w-full h-[600px] flex items-center justify-center p-2 bg-gray-100 rounded-xl shadow-inner">
+                <canvas id="storeCanvas" width="700" height="580" class="w-full h-full"></canvas>
+            </div>
+ 
+            <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg h-[200px] mt-5 flex flex-col">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div>
+ 
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Status</h3>
+                        <div id="messageBox" class="mt-4 p-3 text-sm rounded-lg text-center h-[100px]" style="display: none;"></div>
+                    </div>
+ 
+                    <div >
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Legenda</h3>
+                        <ul class="text-sm space-y-1">
+                        <li><span class="inline-block w-4 h-4 bg-gray-500 rounded-full"></span> Ponto de Partida (Start)</li>
+                        <li><span class="inline-block w-4 h-4" style="background-color: rgba(16, 185, 129, 0.2); border: 2px solid #059669; border-radius: 4px;"></span> Zona de Checkout (Fim)</li>
+                        <li><span class="inline-block w-4 h-4 bg-green-500 rounded-full"></span> Localização do Produto</li>
+                        <li><span class="inline-block w-4 h-4 bg-red-600 rounded-full"></span> Avatar em Movimento</li>
+                        <li><span class="inline-block w-4 h-4 bg-slate-300"></span> Prateleiras / Obstáculos</li>
+                        </ul>
+                    </div>
+                   
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<script>
+    // --- CONFIGURAÇÃO DA GRELHA (50x50) ---
+    const LARGURA_M = 50;
+    const ALTURA_M = 50;
+    const NUM_COLS = 50;
+    const NUM_ROWS = 50;
+   
+    // Ponto de Partida (Canto Inferior Esquerdo, célula (0, 49))
+    const START_POS = { x: 0.5, y: 49.5, name: 'Partida' };
+ 
+    // Zona de Checkout (Caixas): Área de 2x2m (Grid 50x50: células (1, 47) a (2, 48))
+    const CHECKOUT_ZONE = {
+        xMinGrid: 1,
+        yMinGrid: 47,
+        xMaxGrid: 2,
+        yMaxGrid: 48,
+        name: 'Zona de Checkout'
+    };
+    // Ponto alvo para o algoritmo (Centro da Zona de Checkout, x=2.0, y=48.0)
+    const CHECKOUT_POS = {
+        x: (CHECKOUT_ZONE.xMinGrid + CHECKOUT_ZONE.xMaxGrid + 1) / 2, // 2.0
+        y: (CHECKOUT_ZONE.yMinGrid + CHECKOUT_ZONE.yMaxGrid + 1) / 2, // 48.0
+        name: 'Checkout'
+    };
+ 
+    // Geração do Mapa: Padrão 50x50 (1 = Obstáculo, 0 = Caminhável)
+    const mapGrid = [];
+    for (let r = 0; r < NUM_ROWS; r++) {
+        const row = [];
+        for (let c = 0; c < NUM_COLS; c++) {
+            if (r % 4 === 0 || r % 4 === 1) {
+                row.push(0);
+            } else {
+                if (c % 4 === 1 || c % 4 === 2) {
+                    row.push(1);
+                } else {
+                    row.push(0);
+                }
+            }
+        }
+        mapGrid.push(row);
+    }
+   
+    // Garantir que a área de START_POS (0, 49) é caminhável
+    mapGrid[49][0] = 0;
+   
+    // Garantir que a área de CHECKOUT_ZONE é caminhável
+    for (let r = CHECKOUT_ZONE.yMinGrid; r <= CHECKOUT_ZONE.yMaxGrid; r++) {
+        for (let c = CHECKOUT_ZONE.xMinGrid; c <= CHECKOUT_ZONE.xMaxGrid; c++) {
+            // Verifica se a célula está dentro dos limites da grelha
+            if (r >= 0 && r < NUM_ROWS && c >= 0 && c < NUM_COLS) {
+                mapGrid[r][c] = 0;
+            }
+        }
+    }
+ 
+ 
+    // --- FUNÇÕES DE AJUDA PARA GERAÇÃO DE PRODUTOS ---
+   
+    // Função para encontrar uma posição aleatória caminhável
+    function findRandomWalkablePosition(map) {
+        let x, y;
+        let gridX, gridY;
+        const maxRetries = 10000;
+        let retries = 0;
+       
+        // Função auxiliar para verificar se a posição está na zona de checkout ou partida
+        const isNearStartOrCheckout = (gx, gy) => {
+            return (gx === 0 && gy === 49) || // Partida
+                   (gx >= CHECKOUT_ZONE.xMinGrid && gx <= CHECKOUT_ZONE.xMaxGrid &&
+                    gy >= CHECKOUT_ZONE.yMinGrid && gy <= CHECKOUT_ZONE.yMaxGrid); // Checkout
+        };
+ 
+        do {
+            gridX = Math.floor(Math.random() * NUM_COLS);
+            gridY = Math.floor(Math.random() * NUM_ROWS);
+            retries++;
+            if (retries > maxRetries) {
+                console.error("Não foi possível encontrar um local caminhável.");
+                return null;
+            }
+        } while (map[gridY][gridX] === 1 || isNearStartOrCheckout(gridX, gridY));
+ 
+        x = gridX + 0.5;
+        y = gridY + 0.5;
+ 
+        return { x, y, gridX, gridY };
+    }
+ 
+var productNames = [];
+    const productData = [];
+ 
+ 
+async function loadProductNames() {
+  try {
+    // 1️⃣ Carrega os produtos da lista de compras
+    const respLista = await fetch('itemList.json');
+    if (!respLista.ok) throw new Error('Erro ao carregar itemList.json');
+    const productNames = await respLista.json();
+
+    // 2️⃣ Carrega o ficheiro com as localizações
+    const respLoc = await fetch('productLocation.json');
+    if (!respLoc.ok) throw new Error('Erro ao carregar productLocation.json');
+    const locations = await respLoc.json();
+
+    const list = document.getElementById('productList');
+    list.innerHTML = '';
+
+    // 3️⃣ Match dos nomes com os produtos do ficheiro
+    productData.length = 0; // limpar array anterior
+
+    productNames.forEach((name, i) => {
+      const match = locations.find(p =>
+        p.nome_produto.toLowerCase().includes(name.toLowerCase())
+      );
+
+      if (match) {
+        productData.push({
+          id: i + 1,
+          name: match.nome_produto,
+          x: match.coordenada_x,
+          y: match.coordenada_y,
+          shelf: `${match.corredor} / ${match.secção}`
+        });
+      } else {
+        console.warn(`Produto "${name}" não encontrado nas localizações.`);
+      }
+    });
+
+    // 4️⃣ Atualiza lista lateral
+    productData.forEach(prod => {
+      const div = document.createElement('div');
+      div.className = 'flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200';
+      div.innerHTML = `
+        <label class="flex-grow text-gray-800">
+          <span class="font-medium">${prod.name}</span>
+          <span class="text-xs text-gray-500 block">(${prod.x.toFixed(1)}m, ${prod.y.toFixed(1)}m) — ${prod.shelf}</span>
+        </label>`;
+      list.appendChild(div);
+    });
+
+    // 5️⃣ Copia os produtos para a lista de selecionados e renderiza
+    selectedProducts = [...productData];
+    renderProductList();
+
+  } catch (error) {
+    console.error('Erro:', error);
+  }
+}
+
+// Run when the page finishes loading
+//window.addEventListener('DOMContentLoaded', loadProductNames);
+ 
+ 
+    /*
+    //Nomes para os 30 produtos
+    const productNames = [
+        "Maçãs Gala", "Morangos Frescos", "Bacalhau Congelado", "Frango Inteiro", "Iogurte Natural",
+        "Queijo Fresco", "Sumo de Laranja", "Água Gaseificada", "Arroz Agulha", "Feijão Preto",
+        "Azeite Virgem", "Vinagre Balsâmico", "Biscoitos Chá", "Bolachas Maria", "Chocolate Negro",
+        "Pastilha Elástica", "Cerveja Artesanal", "Vinho Tinto", "Sopa Instantânea", "Atum em Lata",
+        "Detergente Roupa", "Amaciador", "Champô Anticaspa", "Sabonete Líquido", "Guardanapos",
+        "Papel Higiénico", "Lâmpadas LED", "Baterias AA", "Ração Cão", "Areia Gato"
+    ];*/
+   
+   
+    // --- VARIÁVEIS DE SIMULAÇÃO ---
+    const canvas = document.getElementById('storeCanvas');
+    const ctx = canvas.getContext('2d');
+    const M_TO_PIXEL = canvas.width / LARGURA_M;
+ 
+    let selectedProducts = [...productData];
+    let currentRoute = [];
+    let navigationInstructions = []; // Nova variável para guardar as instruções
+    let currentInstructionIndex = 0; // Novo índice para a instrução atual
+    let animationFrame = 0;
+    let animationId = null;
+    let currentAvatarPos = { x: START_POS.x, y: START_POS.y };
+    let animationSpeed = 5;
+ 
+    // --- DIJKSTRA'S ALGORITHM IMPLEMENTATION (Não alterado) ---
+   
+    const nodeKey = (x, y) => `${x},${y}`;
+   
+    function getNeighbors(x, y) {
+        const neighbors = [];
+        const directions = [
+            [0, 1], [0, -1], [1, 0], [-1, 0]
+        ];
+ 
+        for (const [dx, dy] of directions) {
+            const nx = x + dx;
+            const ny = y + dy;
+ 
+            if (nx >= 0 && nx < NUM_COLS && ny >= 0 && ny < NUM_ROWS && mapGrid[ny][nx] === 0) {
+                neighbors.push({ x: nx, y: ny });
+            }
+        }
+        return neighbors;
+    }
+ 
+    function dijkstra(startM, endM) {
+        const startX = mToGrid(startM.x);
+        const startY = mToGrid(startM.y);
+        const endX = mToGrid(endM.x);
+        const endY = mToGrid(endM.y);
+ 
+        const startNode = nodeKey(startX, startY);
+        const endNode = nodeKey(endX, endY);
+       
+        const distances = new Map();
+        const previous = new Map();
+        const queue = [];
+ 
+        distances.set(startNode, 0);
+        queue.push({ dist: 0, node: startNode });
+ 
+        while (queue.length > 0) {
+            queue.sort((a, b) => a.dist - b.dist);
+            const { dist: currentDist, node: currentNodeKey } = queue.shift();
+ 
+            if (currentNodeKey === endNode) {
+                break;
+            }
+           
+            if (currentDist > (distances.get(currentNodeKey) ?? Infinity)) {
+                continue;
+            }
+ 
+            const [cx, cy] = currentNodeKey.split(',').map(Number);
+ 
+            for (const neighbor of getNeighbors(cx, cy)) {
+                const neighborNodeKey = nodeKey(neighbor.x, neighbor.y);
+                const newDist = currentDist + 1;
+ 
+                if (newDist < (distances.get(neighborNodeKey) ?? Infinity)) {
+                    distances.set(neighborNodeKey, newDist);
+                    previous.set(neighborNodeKey, currentNodeKey);
+                    queue.push({ dist: newDist, node: neighborNodeKey });
+                }
+            }
+        }
+ 
+        const path = [];
+        let current = endNode;
+ 
+        if (!previous.has(endNode) && startNode !== endNode) {
+            return null;
+        }
+ 
+        while (current) {
+            const [x, y] = current.split(',').map(Number);
+            path.unshift({ x, y });
+            current = previous.get(current);
+        }
+       
+        // Adicionar o ponto de fim da rota para poder ser usado como referência na animação
+        if (path.length > 0) {
+            path[path.length - 1].isEnd = true;
+        }
+       
+        return path;
+    }
+   
+    // --- FUNÇÃO DE GERAÇÃO DE INSTRUÇÕES DE NAVEGAÇÃO ---
+ 
+    function getDirectionText(dx, dy) {
+        if (dx === 1) return "Direita (Leste)";
+        if (dx === -1) return "Esquerda (Oeste)";
+        if (dy === 1) return "Para Trás (Sul)";
+        if (dy === -1) return "Em Frente (Norte)";
+        return "Paragem";
+    }
+ 
+    /**
+     * Gera uma lista de instruções de navegação passo a passo a partir da rota de células.
+     * Consolida os passos contínuos na mesma direção (ex: 10 metros em frente).
+     * @param {Array<object>} route - O caminho completo de células {x, y}.
+     * @param {Array<object>} points - A sequência de pontos a visitar (inclui START e CHECKOUT).
+     * @returns {Array<object>} Lista de instruções.
+     */
+    function generateNavigationInstructions(route, points) {
+        const instructions = [];
+        let currentPointIndex = 0; // 0: Start, 1: P1, 2: P2, ..., Last: Checkout
+        let i = 0;
+ 
+        while (currentPointIndex < points.length - 1) {
+           
+            // O ponto inicial da instrução (para referência na animação)
+            const instructionStartStep = i;
+ 
+            // Determinar o ponto de destino (próximo item a apanhar ou checkout)
+            let targetPoint = points[currentPointIndex + 1];
+ 
+            // Ponto de partida do segmento atual
+            let currentSegmentStartName = points[currentPointIndex].name || `Produto ${points[currentPointIndex].id}`;
+ 
+            // Encontrar o próximo ponto de recolha na rota (procura o passo marcado com isEnd que coincide com o target)
+            let segmentEndStep = -1;
+            let tempIndex = instructionStartStep;
+           
+            while (tempIndex < route.length) {
+                if (route[tempIndex].isEnd &&
+                    mToGrid(gridToM(route[tempIndex].x, route[tempIndex].y).x) === mToGrid(targetPoint.x) &&
+                    mToGrid(gridToM(route[tempIndex].x, route[tempIndex].y).y) === mToGrid(targetPoint.y)
+                ) {
+                    segmentEndStep = tempIndex;
+                    break;
+                }
+                tempIndex++;
+            }
+           
+            if (segmentEndStep === -1) break; // Deve ter chegado ao fim ou erro
+ 
+            // O caminho entre o ponto atual e o próximo ponto de recolha
+            const segment = route.slice(instructionStartStep, segmentEndStep + 1);
+           
+            if (segment.length === 0) break;
+ 
+            let j = 0;
+            let currentInstructionStartStep = instructionStartStep;
+ 
+            while (j < segment.length - 1) {
+                let dx = segment[j+1].x - segment[j].x;
+                let dy = segment[j+1].y - segment[j].y;
+                let currentDir = nodeKey(dx, dy);
+                let distance = 0;
+                let stepStart = j;
+ 
+                // Consolidação de passos na mesma direção
+                while (j < segment.length - 1 && nodeKey(segment[j+1].x - segment[j].x, segment[j+1].y - segment[j].y) === currentDir) {
+                    distance++;
+                    j++;
+                }
+ 
+                if (distance > 0) {
+                    instructions.push({
+                        from: currentSegmentStartName,
+                        to: targetPoint.name || `Produto ${targetPoint.id}`,
+                        text: `Siga ${distance} metros para a ${getDirectionText(dx, dy)}`,
+                        startStep: currentInstructionStartStep + stepStart,
+                        endStep: currentInstructionStartStep + j - 1,
+                        type: 'movement'
+                    });
+                }
+            }
+           
+            // Passo final de chegada ao ponto (o último passo do segmento)
+            instructions.push({
+                from: currentSegmentStartName,
+                to: targetPoint.name || 'Destino',
+                text: `*** Chegou ao ponto de recolha: ${targetPoint.name} (x: ${targetPoint.x.toFixed(1)}m, y: ${targetPoint.y.toFixed(1)}m) ***`,
+                startStep: segmentEndStep,
+                endStep: segmentEndStep,
+                type: 'arrival'
+            });
+ 
+            // Atualizar o índice do ponto de partida para o próximo ciclo
+            currentPointIndex++;
+            i = segmentEndStep + 1; // Começar o próximo segmento após o ponto de chegada
+        }
+ 
+        return instructions;
+    }
+ 
+ 
+    // --- CANVAS DRAWING FUNCTIONS ---
+ 
+    function mToGrid(m) {
+        return Math.floor(m / LARGURA_M * NUM_COLS);
+    }
+ 
+    function gridToM(xGrid, yGrid) {
+        const stepX = LARGURA_M / NUM_COLS;
+        const stepY = ALTURA_M / NUM_ROWS;
+        return {
+            x: xGrid * stepX + stepX / 2,
+            y: yGrid * stepY + stepY / 2
+        };
+    }
+ 
+    function drawMap(isAnimating = false) {
+        const parent = canvas.parentElement;
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+        const widthPerCol = canvas.width / NUM_COLS;
+        const heightPerRow = canvas.height / NUM_ROWS;
+ 
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+        // 1. Desenhar Obstáculos (Prateleiras)
+        for (let r = 0; r < NUM_ROWS; r++) {
+            for (let c = 0; c < NUM_COLS; c++) {
+                const x = c * widthPerCol;
+                const y = r * heightPerRow;
+ 
+                if (mapGrid[r][c] === 1) {
+                    ctx.fillStyle = '#e0e0e0';
+                    ctx.fillRect(x, y, widthPerCol, heightPerRow);
+                }
+            }
+        }
+       
+        // 2. Desenhar Zona de Checkout
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.2)'; // Green-400 com transparência
+        ctx.fillRect(
+            CHECKOUT_ZONE.xMinGrid * widthPerCol,
+            CHECKOUT_ZONE.yMinGrid * heightPerRow,
+            (CHECKOUT_ZONE.xMaxGrid - CHECKOUT_ZONE.xMinGrid + 1) * widthPerCol,
+            (CHECKOUT_ZONE.yMaxGrid - CHECKOUT_ZONE.yMinGrid + 1) * heightPerRow
+        );
+        ctx.strokeStyle = '#059669'; // Green-600 border
+        ctx.lineWidth = 2;
+        ctx.strokeRect(
+            CHECKOUT_ZONE.xMinGrid * widthPerCol,
+            CHECKOUT_ZONE.yMinGrid * heightPerRow,
+            (CHECKOUT_ZONE.xMaxGrid - CHECKOUT_ZONE.xMinGrid + 1) * widthPerCol,
+            (CHECKOUT_ZONE.yMaxGrid - CHECKOUT_ZONE.yMinGrid + 1) * heightPerRow
+        );
+ 
+        // 3. Desenhar Pontos de Produto
+        const sequencePoints = [START_POS, ...selectedProducts.map(p => ({ x: p.x, y: p.y })), CHECKOUT_POS];
+ 
+        productData.forEach(product => {
+            const px = mToGrid(product.x);
+            const py = mToGrid(product.y);
+           
+            const sequenceIndex = sequencePoints.findIndex(p => p.x === product.x && p.y === product.y);
+            const isSelected = sequenceIndex > 0 && sequenceIndex < sequencePoints.length - 1;
+ 
+            const radius = isSelected ? 5 : 2;
+           
+            ctx.beginPath();
+            ctx.arc(
+                px * widthPerCol + widthPerCol / 2,
+                py * heightPerRow + heightPerRow / 2,
+                radius,
+                0, 2 * Math.PI
+            );
+            ctx.fillStyle = isSelected ? '#10B981' : '#f59e0b';
+            ctx.fill();
+            ctx.closePath();
+ 
+            if (isSelected) {
+                const labelX = px * widthPerCol + widthPerCol / 2;
+                const labelY = py * heightPerRow + heightPerRow / 2;
+               
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(sequenceIndex, labelX, labelY + 3);
+            }
+        });
+ 
+        // 4. Desenhar Pinos de Start/End
+        drawPin(START_POS.x, START_POS.y, 'gray', 'START');
+        if (!isAnimating) {
+            drawPin(CHECKOUT_POS.x, CHECKOUT_POS.y, '#374151', 'END'); // Ponto final estático
+        }
+    }
+ 
+    function drawPin(xM, yM, color, label) {
+        const widthPerCol = canvas.width / NUM_COLS;
+        const heightPerRow = canvas.height / NUM_ROWS;
+        const x = mToGrid(xM) * widthPerCol + widthPerCol / 2;
+        const y = mToGrid(yM) * heightPerRow + heightPerRow / 2;
+       
+        const radius = 8;
+ 
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.closePath();
+ 
+        if (label) {
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, y - 10);
+        }
+    }
+ 
+    function drawRoute(route, currentStepIndex = 0) {
+        if (!route || route.length < 2) return;
+ 
+        const startIndex = Math.min(currentStepIndex, route.length - 1);
+       
+        if (startIndex >= route.length - 1) return;
+ 
+        const widthPerCol = canvas.width / NUM_COLS;
+        const heightPerRow = canvas.height / NUM_ROWS;
+ 
+        ctx.strokeStyle = 'rgba(128, 0, 0, 0.5)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([5, 5]);
+ 
+        ctx.beginPath();
+       
+        ctx.moveTo(
+            route[startIndex].x * widthPerCol + widthPerCol / 2,
+            route[startIndex].y * heightPerRow + heightPerRow / 2
+        );
+ 
+        for (let i = startIndex + 1; i < route.length; i++) {
+            ctx.lineTo(
+                route[i].x * widthPerCol + widthPerCol / 2,
+                route[i].y * heightPerRow + heightPerRow / 2
+            );
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+ 
+    // --- ANIMATION LOOP ---
+ 
+    function updateNavigationUI(currentStepIndex) {
+        let activeInstruction = null;
+ 
+        // Encontrar qual instrução está ativa neste passo
+        for (let i = 0; i < navigationInstructions.length; i++) {
+            const instr = navigationInstructions[i];
+            // O passo atual está entre o início e o fim desta instrução
+            if (currentStepIndex >= instr.startStep && currentStepIndex <= instr.endStep) {
+                activeInstruction = instr;
+                currentInstructionIndex = i;
+                break;
+            }
+        }
+ 
+        const instructionsContainer = document.getElementById('navigationInstructions');
+        const instructionElements = instructionsContainer.querySelectorAll('.instruction-item');
+       
+        let foundActive = false;
+       
+        instructionElements.forEach((el, index) => {
+            el.classList.remove('instruction-active', 'bg-red-50', 'text-red-700');
+            el.classList.add('bg-gray-50', 'text-gray-800');
+           
+            if (index === currentInstructionIndex && activeInstruction) {
+                el.classList.add('instruction-active');
+                if (activeInstruction.type === 'arrival') {
+                     el.classList.remove('bg-gray-50', 'text-gray-800');
+                     el.classList.add('bg-red-50', 'text-red-700');
+                }
+                document.getElementById('currentSegmentTitle').textContent = `Destino: ${activeInstruction.to}`;
+                foundActive = true;
+                // Scroll para a instrução ativa
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+       
+        if (!foundActive) {
+            document.getElementById('currentSegmentTitle').textContent = 'Fim da Rota';
+        }
+    }
+ 
+    function animateAvatar() {
+        if (animationId) cancelAnimationFrame(animationId);
+        if (currentRoute.length === 0) return;
+ 
+        // Total de frames para o movimento de células (rota total * velocidade de animação)
+        const totalSteps = (currentRoute.length - 1) * animationSpeed;
+ 
+        const step = () => {
+            if (animationFrame >= totalSteps) {
+                cancelAnimationFrame(animationId);
+                showMessage('Simulação Concluída! O avatar chegou ao Checkout.', 'bg-green-200 text-green-800');
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('buttonText').textContent = 'Calcular Rota e Iniciar Simulação';
+                document.getElementById('currentSegmentTitle').textContent = 'FIM';
+                drawMap(false); // Desenhar mapa final (com pino END)
+                // O pino END é desenhado pelo drawMap(false) no CHECKOUT_POS
+                return;
+            }
+ 
+            // O índice da célula da grelha em que o avatar está (0 a rota.length - 2)
+            const routeIndex = Math.floor(animationFrame / animationSpeed);
+            // A fração de movimento dentro dessa célula (de 0.0 a 1.0)
+            const stepFraction = (animationFrame % animationSpeed) / animationSpeed;
+ 
+            const currentGridPos = currentRoute[routeIndex];
+            const nextGridPos = currentRoute[routeIndex + 1] || currentGridPos;
+ 
+            // Interpolação Linear (movimento suave)
+            const currentM = gridToM(currentGridPos.x, currentGridPos.y);
+            const nextM = gridToM(nextGridPos.x, nextGridPos.y);
+ 
+            currentAvatarPos.x = currentM.x + (nextM.x - currentM.x) * stepFraction;
+            currentAvatarPos.y = currentM.y + (nextM.y - currentM.y) * stepFraction;
+           
+            drawMap(true); // Desenhar mapa com animação
+            // Índice da rota que o avatar está a atravessar (ex: 0, 1, 2, ...)
+            drawRoute(currentRoute, routeIndex);
+           
+            drawPin(currentAvatarPos.x, currentAvatarPos.y, '#dc2626', 'AVATAR');
+ 
+            // Atualizar UI de navegação
+            updateNavigationUI(routeIndex);
+ 
+            animationFrame++;
+            animationId = requestAnimationFrame(step);
+        };
+       
+        animationId = requestAnimationFrame(step);
+    }
+   
+   
+    // --- UI/CONTROL FUNCTIONS ---
+ 
+    function renderProductList() {
+        const listContainer = document.getElementById('productList');
+        listContainer.innerHTML = '';
+ 
+        productData.forEach(product => {
+            console.log("product " + product);
+            const div = document.createElement('div');
+            div.className = 'flex items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition duration-150 border border-gray-200';
+            div.innerHTML = `
+               
+                <label for="product-${product.id}" class="flex-grow text-gray-800">
+                    <span class="font-medium">${product.name}</span>
+                    <span class="text-xs text-gray-500 block">Loc: (${product.x.toFixed(1)}m, ${product.y.toFixed(1)}m) | Secção: ${product.shelf}</span>
+                </label>
+            `;
+            listContainer.appendChild(div);
+            // toggleProductSelection(product.id);
+            if (!selectedProducts.find(p => p.id === product.id)) {
+                    selectedProducts.push(product);
+                }
+        });
+    }
+ 
+    function toggleProductSelection(id) {
+        const product = productData.find(p => p.id === id);
+        const index = selectedProducts.findIndex(p => p.id === id);
+ 
+        if (index === -1) {
+            selectedProducts.push(product);
+        } else {
+            selectedProducts.splice(index, 1);
+        }
+        drawMap(false);
+        // Limpar instruções antigas se a seleção mudar
+        document.getElementById('navigationInstructions').innerHTML = '<p class="text-sm text-gray-500 text-center">Calcule a rota para ver as instruções.</p>';
+        document.getElementById('currentSegmentTitle').textContent = 'Início';
+    }
+ 
+    function showMessage(text, className) {
+        const msgBox = document.getElementById('messageBox');
+        msgBox.textContent = text;
+        msgBox.className = `mt-4 p-3 text-sm rounded-lg text-center ${className}`;
+        msgBox.style.display = 'block';
+    }
+ 
+    function hideMessage() {
+        document.getElementById('messageBox').style.display = 'none';
+    }
+   
+    function renderNavigationInstructions() {
+        const instructionsContainer = document.getElementById('navigationInstructions');
+        instructionsContainer.innerHTML = '';
+       
+        if (navigationInstructions.length === 0) {
+            instructionsContainer.innerHTML = '<p class="text-sm text-gray-500 text-center">Nenhuma rota calculada ou rota vazia.</p>';
+            return;
+        }
+ 
+        navigationInstructions.forEach((instruction, index) => {
+            const p = document.createElement('p');
+            p.className = 'instruction-item bg-gray-50 text-gray-800';
+            p.textContent = instruction.text;
+            p.dataset.index = index;
+            instructionsContainer.appendChild(p);
+        });
+    }
+ 
+    // --- MAIN ROUTE CALCULATION AND SIMULATION ---
+ 
+    async function calculateAndStartRoute() {
+        if (selectedProducts.length === 0) {
+            showMessage('Selecione pelo menos um produto para calcular a rota.', 'bg-yellow-200 text-yellow-800');
+            return;
+        }
+ 
+        if (animationId) cancelAnimationFrame(animationId); // Parar qualquer animação anterior
+ 
+        const startTime = performance.now();
+       
+        // Desativar botão e mostrar loading
+        document.getElementById('startButton').disabled = true;
+        document.getElementById('buttonText').textContent = 'A CALCULAR ROTA...';
+        hideMessage();
+        document.getElementById('navigationInstructions').innerHTML = '<p class="text-sm text-gray-500 text-center animate-pulse">A gerar caminho e instruções...</p>';
+ 
+ 
+        // 1. Definir a Sequência de Pontos (Partida -> Produtos Selecionados -> Checkout)
+        // Adicionar nome aos produtos para as instruções
+        const selectedPoints = selectedProducts.map(p => ({
+            x: p.x,
+            y: p.y,
+            id: p.id,
+            name: p.name
+        }));
+        // O último ponto é agora o CHECKOUT_POS
+        const sequence = [START_POS, ...selectedPoints, CHECKOUT_POS];
+       
+        let fullRoute = [];
+        let totalDistance = 0;
+ 
+        // O setTimeout permite que o UI atualize antes do cálculo
+        setTimeout(() => {
+            try {
+                for (let i = 0; i < sequence.length - 1; i++) {
+                    const startM = sequence[i];
+                    const endM = sequence[i + 1];
+       
+                    // 2. Aplicar Dijkstra para o segmento da rota
+                    const segmentPath = dijkstra(startM, endM);
+                   
+                    if (segmentPath) {
+                        if (i > 0) segmentPath.shift();
+                       
+                        // Marcar o último passo de cada segmento para referência na geração de instruções
+                        if (segmentPath.length > 0) {
+                            segmentPath[segmentPath.length - 1].isEnd = true;
+                        }
+ 
+                        fullRoute.push(...segmentPath);
+                        totalDistance += segmentPath.length;
+                    } else {
+                        showMessage(`Erro de cálculo: Não foi possível ir do ponto ${sequence[i].name} para o ponto ${sequence[i+1].name}.`, 'bg-red-200 text-red-800');
+                        document.getElementById('startButton').disabled = false;
+                        document.getElementById('buttonText').textContent = 'Recalcular Rota';
+                        return;
+                    }
+                }
+               
+                const endTime = performance.now();
+                const timeTaken = (endTime - startTime).toFixed(2);
+               
+                // 3. Geração das Instruções de Navegação
+                navigationInstructions = generateNavigationInstructions(fullRoute, sequence);
+                renderNavigationInstructions();
+ 
+                // 4. Preparar e Iniciar Animação
+                currentRoute = fullRoute;
+                animationFrame = 0;
+                currentInstructionIndex = 0;
+                currentAvatarPos = { x: START_POS.x, y: START_POS.y };
+               
+                showMessage(`Rota calculada em ${timeTaken} ms! ${selectedProducts.length} pontos visitados. Custo Total (passos/metros): ${totalDistance}.`, 'bg-blue-200 text-blue-800');
+                document.getElementById('buttonText').textContent = 'A SIMULAR... (Velocidade Lenta)';
+               
+                animateAvatar();
+            } catch (error) {
+                showMessage(`Ocorreu um erro fatal durante o cálculo: ${error.message}`, 'bg-red-200 text-red-800');
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('buttonText').textContent = 'Recalcular Rota';
+                console.error(error);
+            }
+        }, 10);
+    }
+   
+    // --- INITIALIZATION ---
+    // window.onload = () => {
+    //     window.addEventListener('resize', () => drawMap(!!animationId));
+    //     loadProductNames();
+    //     console.log("Inicio do render");
+    //     // renderProductList();
+    //     console.log("Fim do render");
+    //     drawMap(false);
+    // };
+    window.onload = async () => {
+    // Redesenhar mapa ao redimensionar
+            window.addEventListener('resize', () => drawMap(!!animationId));
+ 
+            // 1. Carregar produtos e renderizar lista
+            await loadProductNames();  // espera terminar o fetch e renderização
+ 
+            // 2. Desenhar o mapa completo
+            drawMap(false);
+ 
+            // 3. Agora que tudo está pronto, iniciar a rota automaticamente
+            calculateAndStartRoute();
+        };
+ 
+ 
+</script>
+</body>
+</html>
